@@ -5,8 +5,6 @@ from __future__ import print_function
 from datetime import datetime
 import os.path
 import time
-import argparse
-
 import numpy as np
 from six.moves import xrange
 import tensorflow as tf
@@ -17,7 +15,6 @@ import train_ops
 
 sys.dont_write_bytecode = True
 
-##PARAMETERS TO BE SET
 # training params
 params = {}
 #data path and data file names, needs to be set by each new user
@@ -37,9 +34,9 @@ params["IMAGE_SIZE"] = 256
 params["NUM_CLASSES"] = 5
 params["NUM_EXAMPLES_PER_EPOCH_FOR_TRAIN"] = 35000
 params["NUM_EXAMPLES_PER_EPOCH_FOR_EVAL"] = 3500
-params["CAPACITY"] = 200
+params["CAPACITY"] = 2000
 
-#for resnet file functions
+#for resnet file functions , TO BE UPDATE WITH A MORE CINFIGURABLE MODEL FILE
 params["MOVING_AVERAGE_DECAY"] = 0.9999
 params["NUM_EPOCHS_PER_DECAY"] = 350.0
 params["LEARNING_RATE_DECAY_FACTOR"] = 0.1
@@ -119,8 +116,7 @@ def train():
             init_new_vars_op = tf.variables_initializer(uninitialized_vars)
             sess.run(init_new_vars_op)
         except:
-            # If all the above failed for some reason, simply
-            # initialize all the variables for the TensorFlow graph.
+            # If all the above failed for some reason, initialize all the variables for the TensorFlow graph.
             print("Failed to restore any checkpoints. Initializing variables instead.")
             sess.run(init)
 
@@ -169,7 +165,6 @@ def train():
                     os.makedirs(directory)
 
                 saver.save(sess, checkpoint_path, global_step=step)
-
 
 def main(argv=None):  # pylint: disable=unused-argument
     train()
